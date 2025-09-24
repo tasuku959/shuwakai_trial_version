@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>次回のクラスお知らせ（担当者用）</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .success {
+      color: green;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>次回のクラスのお知らせ（入力フォーム）</h2>
+  <p>以下の情報を入力して「保存」してください。</p>
+
+  <form id="classForm">
+    <label for="date">日程：</label><br>
+    <textarea id="date" required></textarea>
+
+    <label for="place">場所：</label><br>
+    <textarea id="place" required></textarea>
+
+    <label for="content">内容：</label><br>
+    <textarea id="content" required></textarea>
+
+    <label for="teacher">担当：</label><br>
+    <textarea id="teacher" required></textarea>
+
+    <button type="submit">保存</button>
+    <p class="success" id="successMsg" style="display: none;">保存しました！</p>
+  </form>
+
+  <script>
+    const form = document.getElementById('classForm');
+    const successMsg = document.getElementById('successMsg');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const data = {
+        date: document.getElementById('date').value.trim(),
+        place: document.getElementById('place').value.trim(),
+        content: document.getElementById('content').value.trim(),
+        teacher: document.getElementById('teacher').value.trim(),
+        notified: false // 通知をONにする
+      };
+
+      localStorage.setItem('nextClassInfo', JSON.stringify(data));
+      successMsg.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>

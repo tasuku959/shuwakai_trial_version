@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>合同手話会ホームページ</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="stylesheet.css">
+
+  <!-- モーダル用CSS -->
+  <style>
+    .modal {       /* CSS：モーダルの背景 */
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {      /* CSS：モーダルの中身 */
+      background-color: #fff;
+      margin: 8% auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 450px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .close {        /* CSS：閉じるボタン */
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+
+    /* 「手話資料」モーダルウィンドウ */
+    .ok {         /* 「OK」ボタン */
+      padding: 2px 24px;
+      color: white;
+      background-color: rgb(100, 190, 10);
+      text-decoration: none;
+      display: inline-block;
+      opacity: 0.8;
+      border-radius: 4px;
+      font-size: 20px;
+    }
+
+    .ok:active {
+      position: relative;
+      top: 5px;
+      box-shadow: none;
+    }
+
+
+
+   /* 通知ドット用 */
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+    background-color: red;
+    border-radius: 50%;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {     /* 点滅をおこなうクラス */
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+
+    
+     /* スマホ対応：画面幅480px以下でモーダルの見やすさを改善 */
+    @media screen and (max-width: 480px) {
+      .modal-content {
+        margin: 5% auto;
+        width: 90%;
+        padding: 15px;
+        font-size: 16px;
+      }
+
+      .modal-content input,
+      .modal-content select,
+      .modal-content textarea {
+        width: 100%;
+        font-size: 16px;
+      }
+
+      .ok {
+        font-size: 18px;
+        padding: 6px 20px;
+      }
+    }
+
+
+    /* モーダル内の本文を左寄せ（「次回のクラスのお知らせ」以外） */
+          .modal-content p {
+            text-align: left;
+          }
+  </style>
+</head>
+
+<body>
+  <!-- ヘッダー -->
+  <header>
+    <div class="container">
+      <div class="header-left">
+        <div class="back_button_wrap">
+          <a href="index.html">
+            <img class="logo" src="JSLSlogo.png" alt="合同手話会のロゴ">
+          </a>
+          <span class="tooltip">トップページへ戻る</span>
+        </div>
+      </div>
+      <div class="header-right3">  <!-- お問合せ -->
+        <!--<a href="Sign_language_materials.css" class="notice">お問合せ</a>-->
+        <a href="#" id="openContactModal" class="notice">お問合せ</a>
+      </div>
+      <div class="header-right2">  <!-- クイズ -->
+        <a href="../2_quiz/quiz.html" class="notice">クイズ</a>
+      </div>
+      
+      <div class="header-right1">  <!-- 通知ドットを表示するためのspanを追加 -->
+        <a href="#" id="nextClassBtn" class="notice">
+          次回のクラスお知らせ
+          <span id="dot" class="dot" style="display: none;"></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- トップ部分 -->
+  <div class="top-wrapper">
+    <div class="container">
+      <h1>合同手話会</h1>
+    </div>
+  </div>
+
+  <!-- レッスン一覧部分 -->
+  <div class="lesson-wrapper">
+    <div class="container">
+      <h1 class="lesson_heading">日本手話を学ぼう！！</h1>
+
+      <div class="lessons">
+        <div class="lesson">
+          <div class="lesson-icon">
+            <img src="lesson.png" class="img2" alt="クラス一覧">
+            <p></p>
+            <a href="../3_classes/class.html" class="btn class_list">クラス一覧</a>
+            <p class="txt-contents">初級・上級クラスのご案内<br>各クラスの内容は、<br>こちらからご確認いただけます。</p>
+          </div>
+        </div>
+
+        <div class="lesson">
+          <div class="lesson-icon">
+            <img src="self-introduction.png" class="img2" alt="手話資料">
+            <p></p>
+            <!-- モーダルを開くボタン -->
+            <button id="openModal" class="btn Materials">手話資料</button>
+            <p class="txt-contents">指文字・あいさつ・動物・疑問詞など、幅広いカテゴリーの手話表現を掲載しています。<br>興味のあるテーマからご覧いただけます。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- 「お問い合わせ」用モーダル -->
+   <div id="modal-contact" class="modal">
+  <div class="modal-content">
+    <span id="closeContactModal" class="close">&times;</span>
+    <h2>【お問い合わせ】</h2>
+    <p>クラスや資料などに関する質問やご意見がございましたら、<br>お気軽にお問い合わせください。</p>
+
+    <form id="contactForm" action="https://formspree.io/f/xgvyerpd" method="POST"><!-- 【フォームスプリー】　おれのメールアドレス先へ送信 -->
+      <!-- お名前 -->
+      <label for="contact-name">お名前</label><br>
+      <input type="text" id="contact-name" name="お名前" required><br><br>
+
+      <!-- お問い合わせ内容 -->
+      <label for="contact-message">〔問い合わせ内容〕</label><br>
+      <textarea id="contact-message" name="問い合わせ内容" rows="5" cols="40" required></textarea><br><br>
+
+
+      <!-- 送信ボタン -->
+      <button type="submit" class="ok">送信</button>
+    </form>
+  </div>
+</div>
+
+
+
+  <!-- 「手話資料」用モーダル -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>  <!-- 「閉じる」ボタン -->
+      <h2>【注意】</h2>
+      <p>手話資料には、手話単語の表現のみが記載されています。<br>
+      文法や場面に応じた使い方、表現の使い分けについては、<br>
+      クラスにてご案内いたします。</p>
+      <a href="../4_materials/Sign_language_materials.html" class="ok">OK</a>
+    </div>
+  </div>
+
+<!-- 次回のクラスお知らせ モーダル -->
+<div id="nextClassModal" class="modal">
+  <div class="modal-content">
+    <span id="closeNextClassModal" class="close">&times;</span>
+    <h2>次回のクラスのお知らせ</h2>
+    <p id="classDate"></p>
+    <p id="classPlace"></p>
+    <p id="classContent"></p>
+    <p id="classTeacher"></p>
+  </div>
+</div>
+
+
+  <!-- 「参加申込」ボタン -->
+<div class="message-wrapper">
+  <div class="container">
+    <p class="heading">さぁ、あなたも手話を身につけて手話べりしてみませんか？(^o^)/</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc28BZdFY888oqvrdLAlVxs4-XhWe4BvDwMicmjlnLeiGzdvQ/viewform" class="btn message" target="_blank" rel="noopener noreferrer">参加申込</a>
+    <!-- https://forms.gle/j3vbvwg9Pkah1g6X6 -->
+    <!-- <button id="openEntryModal" class="btn message">参加申込</button> -->
+  </div>
+</div>
+
+
+
+  <!-- フッター -->
+  <footer>
+    <div class="container">
+      <img src="JSLSlogo.png" alt="">
+      <p>Learn to Sign Language, Learn to be Expression.</p>
+    </div>
+  </footer>
+
+
+  <!-- JavaScript -->
+  <script>
+  window.addEventListener('DOMContentLoaded', function () {
+    // 「参加申込」モーダル
+    const modal = document.getElementById('modal');
+    const openBtn = document.getElementById('openModal');
+    const closeBtn = document.getElementById('closeModal');
+
+    // 「お問い合わせ」モーダル
+    const contactModal = document.getElementById('modal-contact');
+    const openContactBtn = document.getElementById('openContactModal');
+    const closeContactBtn = document.getElementById('closeContactModal');
+
+    // 「次回のクラスお知らせ」モーダル
+    const nextClassBtn = document.getElementById('nextClassBtn');
+    const nextClassModal = document.getElementById('nextClassModal');
+    const closeNextClassModal = document.getElementById('closeNextClassModal');
+    const dot = document.getElementById('dot');
+
+    const classDate = document.getElementById('classDate');
+    const classPlace = document.getElementById('classPlace');
+    const classContent = document.getElementById('classContent');
+    const classTeacher = document.getElementById('classTeacher');
+
+    // localStorageから「次回のクラスお知らせ」情報を取得
+    const nextClassInfo = JSON.parse(localStorage.getItem('nextClassInfo'));
+    if (nextClassInfo && nextClassInfo.notified === false) {
+      dot.style.display = 'inline-block'; // 通知ドットを表示
+    }
+
+    // 「次回のクラスお知らせ」ボタンクリック → モーダル表示
+    nextClassBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (nextClassInfo) {
+        classDate.innerHTML = '日程：' + nextClassInfo.date.replace(/\n/g, '<br>');
+        classPlace.innerHTML = '場所：' + nextClassInfo.place.replace(/\n/g, '<br>');
+        classContent.innerHTML = '内容：' + nextClassInfo.content.replace(/\n/g, '<br>');
+        classTeacher.innerHTML = '担当：' + nextClassInfo.teacher.replace(/\n/g, '<br>');
+
+
+        nextClassModal.style.display = 'block';
+
+
+        // 通知ドット非表示＆既読状態を保存
+        dot.style.display = 'none';
+        nextClassInfo.notified = true;
+        localStorage.setItem('nextClassInfo', JSON.stringify(nextClassInfo));
+      }
+    });
+
+    closeNextClassModal.addEventListener('click', function () {
+      nextClassModal.style.display = 'none';
+    });
+
+    // 「お問い合わせ」モーダル開閉
+    openContactBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      contactModal.style.display = 'block';
+    });
+
+    closeContactBtn.addEventListener('click', function () {
+      contactModal.style.display = 'none';
+    });
+
+    // 「お問い合わせ」フォーム バリデーション
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', function (e) {
+      const message = document.getElementById('contact-message');
+      if (message.value.trim() === '') {
+        e.preventDefault();
+        alert('問い合わせ内容を入力してください。');
+      }
+    });
+
+    // 背景クリックで各モーダル閉じる
+    window.addEventListener('click', function (event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      } else if (event.target === contactModal) {
+        contactModal.style.display = 'none';
+      } else if (event.target === nextClassModal) {
+        nextClassModal.style.display = 'none';
+      }
+    });
+
+    // 「参加申込」モーダル開閉
+    openBtn.addEventListener('click', function () {
+      modal.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', function () {
+      modal.style.display = 'none';
+    });
+  });
+</script>
+
+
+
+</body>
+</html>

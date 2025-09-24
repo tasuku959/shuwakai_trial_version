@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #fff;
+}
+
+/* 上背景 */
+.top-bg{
+  background-size: 80%;
+}
+
+/* 下背景 */
+.bottom-bg {
+  background-size: cover;
+  height: 100px;
+}
+
+/* メインエリア */
+.main {
+  padding: 2em 1em;
+}
+
+.main h1 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 2em;
+}
+
+/* ゲームボタンレイアウト */
+.lesson-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+  margin-bottom: 2em;
+}
+
+.lesson {
+  width: 220px;
+}
+
+.game-button {
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+/* 戻る・ホームボタン */
+.footer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 3em;
+  margin-top: 2em;
+}
+
+.back-button,
+.home-button {
+  font-size: 1.5em;
+  text-decoration: none;
+  color: #000;
+}

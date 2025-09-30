@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>クイズ</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="quiz.css">
+
+  <style>
+    /* モーダル用スタイル */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+    }
+
+    .modal-content button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 16px;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* かんたん、むずかしいのボタン */
+    .easy{
+      background-color: #70ef50;
+      border: 1px solid #1ac400;
+      padding: 10px 20px;
+      font-size: 18px;
+    }
+
+    .hard{
+      background-color: #f88eb3;
+      border: 1px solid #f401ab;
+      padding: 10px 20px;
+      font-size: 18px;
+    }
+
+    .button-row {  /* 横並び */
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .button-row button {
+      flex: 1;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="top-bg">
+    <img src="Class_List_Top_Image.png" alt="上の背景画像">
+  </div>
+
+  <div class="main">
+    <h1>クイズ</h1>
+
+    <div class="lesson-wrapper">
+      <div class="lesson">
+        <!-- ここを openModal() に変更 -->
+        <button class="game-button" onclick="openModal()">指文字当てゲーム</button>
+        <p>指文字の読み取る力UP<br>トレーニング</p>
+      </div>
+      <div class="lesson">
+        <button class="game-button" onclick="location.href='#'">手話当てゲーム</button>
+        <p>手話語彙力UP<br>トレーニング</p>
+      </div>
+    </div>
+
+    <div class="footer-buttons">
+      <a href="../1_top/index.html" class="back-button">← 戻る</a>
+      <a href="../1_top/index.html" class="home-button">🏠 ホーム</a>
+    </div>
+  </div>
+
+  <div class="bottom-bg"></div>
+
+  <!-- 難易度の選択 -->
+  <div class="modal-overlay" id="difficultyModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h2>難易度をお選びください。</h2>
+      <div class="button-row">
+      <button onclick="location.href='easy/Finger-spelling-game-easy.html'" class="easy">かんたん</button>
+      <button onclick="location.href='hard/Finger-spelling-game-hard.html'" class="hard">むずかしい</button>
+    </div>
+    </div>
+  </div>
+
+
+  <script>
+    // 難易度の選択（モーダルウィンドウ）
+    function openModal() {
+      document.getElementById('difficultyModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('difficultyModal').style.display = 'none';
+    }
+
+    // 背景クリックでも閉じる
+    window.addEventListener('click', function(e) {
+      const modal = document.getElementById('difficultyModal');
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
